@@ -27,7 +27,6 @@ export default function LoadingScreen() {
     const result = calculateType(answers);
     const duration = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
 
-    // 결과 저장
     setResult(result.typeCode, result.scores, result.potatoPower);
     saveToCollection(result.typeCode);
     saveLastResult({
@@ -72,33 +71,33 @@ export default function LoadingScreen() {
 
       {/* 단계별 텍스트 */}
       <div
-        className="text-xl font-semibold text-text-primary mb-2 text-center"
+        className="text-[20px] font-semibold text-text-primary mb-2 text-center"
         key={step}
         style={{ animation: 'fade-in 0.3s ease-out' }}
       >
         {LOADING_STEPS[step].text} {LOADING_STEPS[step].emoji}
       </div>
 
-      {/* 프로그레스 바 */}
-      <div className="w-full max-w-[300px] h-3 bg-potato-light rounded-full overflow-hidden mt-8 mb-10">
+      {/* 프로그레스 바 - 당근오렌지 그라데이션 */}
+      <div className="w-full max-w-[280px] h-3 bg-beige rounded-full overflow-hidden mt-8 mb-10">
         <div
           className="h-full rounded-full transition-all duration-700 ease-out"
           style={{
             width: `${progress}%`,
-            background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)',
+            background: 'linear-gradient(135deg, #FF8A3D 0%, #F5B731 100%)',
           }}
         />
       </div>
 
       {/* 감자 TMI */}
       <div
-        className="bg-white rounded-2xl p-5 w-full max-w-[340px] shadow-sm"
+        className="bg-white rounded-2xl p-5 w-full max-w-[320px] border border-line"
         style={{ animation: 'fade-in 0.6s ease-out 0.5s both' }}
       >
-        <p className="text-base text-text-secondary">
-          💡 <span className="font-semibold">감자 TMI</span>
+        <p className="text-[15px] text-golden-dark font-semibold mb-1.5">
+          💡 감자 TMI
         </p>
-        <p className="text-base text-text-primary mt-2 leading-relaxed">{randomTMI}</p>
+        <p className="text-[15px] text-text-primary leading-relaxed">{randomTMI}</p>
       </div>
     </div>
   );

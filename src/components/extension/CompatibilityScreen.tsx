@@ -21,30 +21,29 @@ export default function CompatibilityScreen() {
   const typeData2 = type2 ? TYPE_DATA[type2] : null;
 
   return (
-    <div className="flex flex-col items-center min-h-[100dvh] px-4 py-6">
+    <div className="flex flex-col items-center min-h-[100dvh] px-6 py-6">
       <button
         onClick={() => setScreen('result')}
-        className="self-start text-sm text-text-secondary mb-6 cursor-pointer"
+        className="self-start text-[15px] text-text-secondary mb-6 cursor-pointer font-medium"
       >
         ← 돌아가기
       </button>
 
-      <div className="text-[48px] mb-4">💕</div>
-      <h2 className="text-xl font-bold text-text-primary mb-6 text-center">
+      <div className="text-[48px] mb-3">💕</div>
+      <h2 className="text-[22px] font-bold text-text-primary mb-6 text-center">
         감자 궁합 테스트
       </h2>
 
       {!showResult ? (
-        <div className="w-full max-w-[340px] space-y-4" style={{ animation: 'fade-in 0.4s ease-out' }}>
-          {/* 본인 유형 */}
+        <div className="w-full max-w-[340px] space-y-5" style={{ animation: 'fade-in 0.4s ease-out' }}>
           <div>
-            <label className="text-sm font-semibold text-text-primary mb-2 block">
+            <label className="text-[14px] font-bold text-text-primary mb-2 block">
               나의 유형
             </label>
             <select
               value={type1}
               onChange={(e) => setType1(e.target.value)}
-              className="w-full p-3 rounded-xl border-2 border-potato/30 bg-white text-base outline-none focus:border-potato cursor-pointer"
+              className="w-full p-4 rounded-2xl border-2 border-line bg-white text-[16px] outline-none focus:border-golden cursor-pointer"
             >
               <option value="">유형 선택</option>
               {ALL_TYPES.map((code) => (
@@ -55,15 +54,14 @@ export default function CompatibilityScreen() {
             </select>
           </div>
 
-          {/* 상대 유형 */}
           <div>
-            <label className="text-sm font-semibold text-text-primary mb-2 block">
+            <label className="text-[14px] font-bold text-text-primary mb-2 block">
               상대방 유형
             </label>
             <select
               value={type2}
               onChange={(e) => setType2(e.target.value)}
-              className="w-full p-3 rounded-xl border-2 border-potato/30 bg-white text-base outline-none focus:border-potato cursor-pointer"
+              className="w-full p-4 rounded-2xl border-2 border-line bg-white text-[16px] outline-none focus:border-golden cursor-pointer"
             >
               <option value="">유형 선택</option>
               {ALL_TYPES.map((code) => (
@@ -77,74 +75,83 @@ export default function CompatibilityScreen() {
           <button
             onClick={handleTest}
             disabled={!type1 || !type2}
-            className="w-full py-4 rounded-xl text-white font-semibold disabled:opacity-50 cursor-pointer mt-4 transition-opacity"
-            style={{ background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)' }}
+            className="w-full py-4 rounded-2xl text-white font-bold text-[16px] disabled:opacity-40 cursor-pointer mt-2 transition-opacity"
+            style={{ background: 'linear-gradient(135deg, #F5B731 0%, #D4960A 100%)' }}
           >
             궁합 확인하기
           </button>
         </div>
       ) : compat && typeData1 && typeData2 ? (
-        <div className="w-full max-w-[380px]" style={{ animation: 'fade-in 0.6s ease-out' }}>
-          {/* 궁합 결과 */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="text-center mb-4">
-              <div className="flex items-center justify-center gap-3 text-3xl mb-3">
+        <div className="w-full max-w-[380px]" style={{ animation: 'fade-in-up 0.6s ease-out' }}>
+          <div className="bg-white rounded-2xl overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+            {/* 헤더 */}
+            <div
+              className="text-center py-6 px-5"
+              style={{ background: 'linear-gradient(180deg, #FFF3D6 0%, #FFFFFF 100%)' }}
+            >
+              <div className="flex items-center justify-center gap-4 text-3xl mb-3">
                 <span>{typeData1.emoji}</span>
-                <span className="text-ketchup">❤️</span>
+                <span className="text-ketchup text-xl">❤️</span>
                 <span>{typeData2.emoji}</span>
               </div>
-              <p className="text-sm text-text-secondary">
+              <p className="text-[14px] text-text-secondary">
                 {type1} {typeData1.name} × {type2} {typeData2.name}
               </p>
             </div>
 
-            {/* 점수 */}
-            <div className="text-center mb-4">
-              <p className="text-4xl font-bold text-potato-dark mb-1">{compat.score}점</p>
-              <p className="text-sm font-semibold text-text-primary">{compat.label}</p>
-            </div>
-
-            {/* 점수 바 */}
-            <div className="h-4 bg-potato-light rounded-full overflow-hidden mb-6">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${compat.score}%`,
-                  background:
-                    compat.score >= 80
-                      ? 'linear-gradient(135deg, #E53E3E 0%, #E8B86D 100%)'
-                      : compat.score >= 60
-                        ? 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)'
-                        : 'linear-gradient(135deg, #718096 0%, #A0AEC0 100%)',
-                  animation: 'progress-fill 1s ease-out',
-                }}
-              />
-            </div>
-
-            {/* 궁합 포인트 */}
-            <div className="mb-4">
-              <p className="text-sm font-semibold text-text-primary mb-2">🎯 궁합 포인트</p>
-              <div className="space-y-1">
-                {compat.points.map((p, i) => (
-                  <p key={i} className="text-sm text-text-secondary">• {p}</p>
-                ))}
+            <div className="px-6 pb-6">
+              {/* 점수 */}
+              <div className="text-center mb-4">
+                <p className="text-[40px] font-bold text-golden-dark mb-1">{compat.score}점</p>
+                <p className="text-[15px] font-bold text-text-primary">{compat.label}</p>
               </div>
-            </div>
 
-            {/* 주의점 */}
-            <div>
-              <p className="text-sm font-semibold text-text-primary mb-2">⚠️ 주의할 점</p>
-              <div className="space-y-1">
-                {compat.warnings.map((w, i) => (
-                  <p key={i} className="text-sm text-text-secondary">• {w}</p>
-                ))}
+              {/* 점수 바 */}
+              <div className="h-4 bg-beige rounded-full overflow-hidden mb-6">
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${compat.score}%`,
+                    background:
+                      compat.score >= 80
+                        ? 'linear-gradient(135deg, #E84C3D 0%, #F5B731 100%)'
+                        : compat.score >= 60
+                          ? 'linear-gradient(135deg, #F5B731 0%, #D4960A 100%)'
+                          : 'linear-gradient(135deg, #718096 0%, #A0AEC0 100%)',
+                    animation: 'progress-fill 1s ease-out',
+                  }}
+                />
+              </div>
+
+              {/* 궁합 포인트 */}
+              <div className="mb-5">
+                <p className="text-[15px] font-bold text-text-primary mb-3">🎯 궁합 포인트</p>
+                <div className="space-y-2 pl-1">
+                  {compat.points.map((p, i) => (
+                    <p key={i} className="text-[14px] text-text-secondary flex items-start gap-2">
+                      <span className="text-green shrink-0 mt-0.5">●</span>{p}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              {/* 주의점 */}
+              <div>
+                <p className="text-[15px] font-bold text-text-primary mb-3">⚠️ 주의할 점</p>
+                <div className="space-y-2 pl-1">
+                  {compat.warnings.map((w, i) => (
+                    <p key={i} className="text-[14px] text-text-secondary flex items-start gap-2">
+                      <span className="text-ketchup shrink-0 mt-0.5">●</span>{w}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
           <button
             onClick={() => setShowResult(false)}
-            className="w-full py-3 mt-4 rounded-xl text-sm font-medium text-text-secondary bg-white shadow-sm cursor-pointer"
+            className="w-full py-4 mt-4 rounded-2xl text-[15px] font-semibold text-text-secondary bg-white border border-line cursor-pointer"
           >
             🔄 다른 유형으로 다시 해보기
           </button>

@@ -1,15 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-potato: #E8B86D;
-  --color-potato-light: #FFF3D6;
-  --color-potato-dark: #C9923D;
-  --color-ketchup: #E53E3E;
-  --color-salt: #F7FAFC;
+  /* 맥도날드 영감 계열 (음식/즐거움) */
+  --color-golden: #F5B731;
+  --color-golden-light: #FFF3D6;
+  --color-golden-dark: #D4960A;
+  --color-ketchup: #E84C3D;
+
+  /* 당근마켓 영감 계열 (커뮤니티/따뜻함) */
+  --color-carrot: #FF8A3D;
+  --color-beige: #FFF0DE;
+  --color-green: #4CAF7A;
+
+  /* 공통/중립 */
   --color-bg: #FFF8E7;
   --color-card: #FFFFFF;
   --color-text-primary: #2D3748;
   --color-text-secondary: #718096;
+  --color-line: #E2E8F0;
+
+  /* 기존 호환용 alias */
+  --color-potato: #F5B731;
+  --color-potato-light: #FFF3D6;
+  --color-potato-dark: #D4960A;
 }
 
 @font-face {
@@ -61,17 +74,24 @@ body {
 
 @media (min-width: 768px) {
   #root {
-    max-width: 520px;
+    max-width: 480px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.06);
   }
 }
 
+/* ===== Animations ===== */
 @keyframes bounce-potato {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-14px); }
 }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -98,6 +118,22 @@ body {
   0%, 100% { transform: rotate(0deg); }
   25% { transform: rotate(-5deg); }
   75% { transform: rotate(5deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-6px) rotate(1deg); }
+  66% { transform: translateY(3px) rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(245, 183, 49, 0.3); }
+  50% { box-shadow: 0 4px 30px rgba(245, 183, 49, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

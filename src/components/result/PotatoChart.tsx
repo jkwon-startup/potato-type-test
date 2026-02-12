@@ -17,25 +17,28 @@ const LABELS: { key: keyof Props['potatoPower']; emoji: string }[] = [
 export default function PotatoChart({ potatoPower }: Props) {
   return (
     <div className="space-y-3">
-      <p className="text-base font-semibold text-text-primary mb-3">📊 감자력</p>
+      <div className="flex items-center gap-1.5 mb-3">
+        <span className="text-lg">📊</span>
+        <span className="text-[15px] font-bold text-text-primary">감자력</span>
+      </div>
       {LABELS.map(({ key, emoji }) => {
         const value = potatoPower[key];
         return (
           <div key={key} className="flex items-center gap-3">
-            <span className="text-sm w-16 text-text-secondary shrink-0">
+            <span className="text-[14px] w-[72px] text-text-secondary shrink-0 font-medium">
               {emoji} {key}
             </span>
-            <div className="flex-1 h-5 bg-potato-light rounded-full overflow-hidden">
+            <div className="flex-1 h-[22px] bg-beige rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-1000 ease-out"
                 style={{
                   width: `${value}%`,
-                  background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)',
+                  background: 'linear-gradient(135deg, #F5B731 0%, #D4960A 100%)',
                   animation: 'progress-fill 1s ease-out',
                 }}
               />
             </div>
-            <span className="text-sm font-semibold text-potato-dark w-12 text-right">
+            <span className="text-[14px] font-bold text-golden-dark w-12 text-right tabular-nums">
               {value}%
             </span>
           </div>

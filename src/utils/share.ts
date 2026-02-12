@@ -11,16 +11,24 @@ export async function saveResultImage(
     // 캡처 전 스크롤을 카드 상단으로 이동
     cardElement.scrollIntoView({ block: 'start' });
 
+    // 잠시 대기하여 렌더링 안정화
+    await new Promise((r) => setTimeout(r, 100));
+
     const canvas = await html2canvas(cardElement, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#FFFFFF',
       logging: false,
-      // 요소의 실제 크기 + 패딩을 그대로 캡처
       scrollX: 0,
       scrollY: -window.scrollY,
-      windowWidth: cardElement.scrollWidth,
-      windowHeight: cardElement.scrollHeight,
+      // windowWidth/windowHeight를 제거하여 자동 계산하게 함
+      // onclone으로 캡처용 스타일 보정
+      onclone: (_doc, clonedEl) => {
+        clonedEl.style.width = `${cardElement.offsetWidth}px`;
+        clonedEl.style.padding = '32px 28px';
+        clonedEl.style.borderRadius = '0';
+        clonedEl.style.boxShadow = 'none';
+      },
     });
 
     const dataUrl = canvas.toDataURL('image/png');

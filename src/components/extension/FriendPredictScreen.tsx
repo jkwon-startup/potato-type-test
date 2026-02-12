@@ -52,19 +52,19 @@ export default function FriendPredictScreen() {
   // 이름 입력
   if (phase === 'name') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[100dvh] px-4 py-8">
+      <div className="flex flex-col items-center justify-center min-h-[100dvh] px-6 py-8">
         <button
           onClick={() => setScreen('result')}
-          className="self-start text-sm text-text-secondary mb-8 cursor-pointer"
+          className="self-start text-[15px] text-text-secondary mb-8 cursor-pointer font-medium"
         >
           ← 돌아가기
         </button>
 
-        <div className="text-[56px] mb-6">🎯</div>
-        <h2 className="text-xl font-bold text-text-primary mb-2 text-center">
+        <div className="text-[56px] mb-5">🎯</div>
+        <h2 className="text-[22px] font-bold text-text-primary mb-2 text-center">
           친구 유형 예측하기
         </h2>
-        <p className="text-sm text-text-secondary mb-8 text-center">
+        <p className="text-[15px] text-text-secondary mb-8 text-center leading-relaxed">
           친구 이름을 입력하고 4개 질문에 답해보세요!
         </p>
 
@@ -74,16 +74,16 @@ export default function FriendPredictScreen() {
           onChange={(e) => setFriendName(e.target.value.slice(0, 10))}
           placeholder="친구 이름 또는 닉네임"
           maxLength={10}
-          className="w-full max-w-[300px] p-4 rounded-xl border-2 border-potato/30 text-center text-base outline-none focus:border-potato transition-colors bg-white"
+          className="w-full max-w-[300px] p-4 rounded-2xl border-2 border-line text-center text-[16px] outline-none focus:border-golden transition-colors bg-white"
           onKeyDown={(e) => e.key === 'Enter' && handleNameSubmit()}
         />
-        <p className="text-xs text-text-secondary mt-2">{friendName.length}/10</p>
+        <p className="text-[13px] text-text-secondary mt-2">{friendName.length}/10</p>
 
         <button
           onClick={handleNameSubmit}
           disabled={!friendName.trim()}
-          className="mt-6 w-full max-w-[300px] py-4 rounded-xl text-white font-semibold disabled:opacity-50 cursor-pointer transition-opacity"
-          style={{ background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)' }}
+          className="mt-6 w-full max-w-[300px] py-4 rounded-2xl text-white font-bold text-[16px] disabled:opacity-40 cursor-pointer transition-opacity"
+          style={{ background: 'linear-gradient(135deg, #F5B731 0%, #D4960A 100%)' }}
         >
           시작하기
         </button>
@@ -95,19 +95,19 @@ export default function FriendPredictScreen() {
   if (phase === 'question') {
     const q = FRIEND_QUESTIONS[currentQ - 1];
     return (
-      <div className="flex flex-col min-h-[100dvh] px-4 py-6">
+      <div className="flex flex-col min-h-[100dvh] px-6 py-6">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex-1 h-2 bg-potato-light rounded-full overflow-hidden mr-3">
+            <div className="flex-1 h-2.5 bg-beige rounded-full overflow-hidden mr-3">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{
                   width: `${(currentQ / FRIEND_QUESTIONS.length) * 100}%`,
-                  background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)',
+                  background: 'linear-gradient(135deg, #FF8A3D 0%, #F5B731 100%)',
                 }}
               />
             </div>
-            <span className="text-sm font-semibold text-text-secondary">
+            <span className="text-[15px] font-bold text-carrot">
               {currentQ}/{FRIEND_QUESTIONS.length}
             </span>
           </div>
@@ -118,28 +118,32 @@ export default function FriendPredictScreen() {
           key={currentQ}
           style={{ animation: 'slide-in-right 0.3s ease-out' }}
         >
-          <p className="text-sm text-potato-dark font-semibold mb-1">
+          <p className="text-sm text-carrot font-bold mb-2">
             {friendName}님에 대해...
           </p>
-          <p className="text-lg font-bold text-text-primary mb-2">Q{currentQ}.</p>
-          <h2 className="text-xl font-bold text-text-primary mb-8 leading-relaxed">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span className="bg-golden text-white text-sm font-bold px-3 py-1 rounded-lg">
+              Q{currentQ}
+            </span>
+          </div>
+          <h2 className="text-[20px] font-bold text-text-primary mb-8 leading-[1.5]">
             {q.text}
           </h2>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <button
               onClick={() => handleAnswer('A')}
               disabled={isTransitioning}
-              className="w-full text-left p-4 rounded-xl border-2 border-potato/30 bg-white hover:border-potato hover:bg-potato-light/30 transition-all cursor-pointer min-h-[56px]"
+              className="w-full text-left p-5 rounded-2xl border-2 border-line bg-white hover:border-carrot/60 hover:bg-beige/50 transition-all cursor-pointer min-h-[64px]"
             >
-              {q.optionA.emoji} {q.optionA.text}
+              <span className="text-[16px] font-medium">{q.optionA.emoji} {q.optionA.text}</span>
             </button>
             <button
               onClick={() => handleAnswer('B')}
               disabled={isTransitioning}
-              className="w-full text-left p-4 rounded-xl border-2 border-potato/30 bg-white hover:border-potato hover:bg-potato-light/30 transition-all cursor-pointer min-h-[56px]"
+              className="w-full text-left p-5 rounded-2xl border-2 border-line bg-white hover:border-carrot/60 hover:bg-beige/50 transition-all cursor-pointer min-h-[64px]"
             >
-              {q.optionB.emoji} {q.optionB.text}
+              <span className="text-[16px] font-medium">{q.optionB.emoji} {q.optionB.text}</span>
             </button>
           </div>
         </div>
@@ -150,38 +154,38 @@ export default function FriendPredictScreen() {
   // 결과
   const typeData = resultType ? TYPE_DATA[resultType] : null;
   return (
-    <div className="flex flex-col items-center justify-center min-h-[100dvh] px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-[100dvh] px-6 py-8">
       <div
-        className="text-center"
+        className="text-center w-full max-w-[340px]"
         style={{ animation: 'fade-in 0.6s ease-out' }}
       >
         <div className="text-[64px] mb-4">{typeData?.emoji || '🥔'}</div>
-        <p className="text-sm text-text-secondary mb-2">예측 결과</p>
-        <h2 className="text-xl font-bold text-text-primary mb-1">
+        <p className="text-sm text-carrot font-bold mb-2">예측 결과</p>
+        <h2 className="text-[20px] font-bold text-text-primary mb-1">
           {friendName}님은
         </h2>
-        <p className="text-2xl font-bold text-potato-dark mb-1">
+        <p className="text-[24px] font-bold text-golden-dark mb-1">
           {resultType} {typeData?.name}
         </p>
-        <p className="text-base text-text-secondary mb-8">
+        <p className="text-[16px] text-text-secondary mb-6">
           일 것 같아요!
         </p>
-        <p className="text-sm text-text-secondary mb-8 bg-white rounded-xl p-4">
+        <div className="text-[15px] text-text-secondary bg-beige rounded-2xl p-5 mb-8 leading-relaxed">
           {typeData?.shortDesc}
-        </p>
+        </div>
       </div>
 
       <button
         onClick={handleShareLink}
-        className="w-full max-w-[300px] py-4 rounded-xl text-white font-semibold cursor-pointer mb-3"
-        style={{ background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)' }}
+        className="w-full max-w-[300px] py-4 rounded-2xl text-white font-bold text-[16px] cursor-pointer mb-3"
+        style={{ background: 'linear-gradient(135deg, #F5B731 0%, #D4960A 100%)' }}
       >
         🔗 친구에게 테스트 보내기
       </button>
 
       <button
         onClick={() => setScreen('result')}
-        className="text-sm text-text-secondary cursor-pointer"
+        className="text-[15px] text-text-secondary cursor-pointer font-medium"
       >
         ← 결과로 돌아가기
       </button>

@@ -51,7 +51,6 @@ export default function QuestionScreen() {
 
       answerQuestion(currentQuestion, answer);
 
-      // 선택 피드백 잠깐 보여준 후 부드럽게 전환
       setTimeout(() => {
         if (currentQuestion < total) {
           transitionToNext(() => {
@@ -84,27 +83,27 @@ export default function QuestionScreen() {
 
   return (
     <div className="flex flex-col min-h-[100dvh] px-6 pt-6 pb-8">
-      {/* 프로그레스 바 */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex-1 h-2.5 bg-potato-light rounded-full overflow-hidden mr-3">
+      {/* 프로그레스 바 - 당근오렌지 */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex-1 h-2.5 bg-beige rounded-full overflow-hidden mr-3">
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"
               style={{
                 width: `${percentage}%`,
-                background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)',
+                background: 'linear-gradient(135deg, #FF8A3D 0%, #F5B731 100%)',
               }}
             />
           </div>
-          <span className="text-base font-semibold text-text-secondary whitespace-nowrap">
+          <span className="text-[15px] font-bold text-carrot whitespace-nowrap tabular-nums">
             {currentQuestion}/{total}
           </span>
         </div>
       </div>
 
-      {/* 질문 영역 - 상단 40% 지점에 배치 */}
+      {/* 질문 영역 */}
       <div
-        className="flex-1 flex flex-col pt-[12vh]"
+        className="flex-1 flex flex-col pt-[10vh]"
         style={{
           opacity,
           transform: opacity === 1 ? 'translateY(0)' : 'translateY(8px)',
@@ -112,28 +111,32 @@ export default function QuestionScreen() {
         }}
       >
         {/* 질문 번호 */}
-        <p className="text-xl font-bold text-potato-dark mb-3">Q{currentQuestion}.</p>
+        <div className="inline-flex items-center gap-2 mb-4">
+          <span className="bg-golden text-white text-sm font-bold px-3 py-1 rounded-lg">
+            Q{currentQuestion}
+          </span>
+        </div>
 
         {/* 질문 텍스트 */}
-        <h2 className="text-[22px] font-bold text-text-primary mb-10 leading-relaxed">
+        <h2 className="text-[22px] font-bold text-text-primary mb-10 leading-[1.5]">
           {question.text}
         </h2>
 
         {/* 선택지 */}
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           <button
             onClick={() => handleAnswer('A')}
             disabled={isTransitioning}
-            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[64px] ${
+            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[68px] ${
               selected === 'A'
-                ? 'border-potato bg-potato-light scale-[0.98]'
+                ? 'border-golden bg-golden-light scale-[0.98]'
                 : answers[currentQuestion] === 'A'
-                  ? 'border-potato/50 bg-potato-light/50'
-                  : 'border-potato/30 bg-white hover:border-potato hover:bg-potato-light/30'
+                  ? 'border-golden/50 bg-golden-light/50'
+                  : 'border-line bg-white hover:border-carrot/60 hover:bg-beige/50'
             }`}
             aria-label={`선택지 A: ${question.optionA.text}`}
           >
-            <span className="text-[17px] leading-relaxed">
+            <span className="text-[17px] leading-relaxed font-medium">
               {question.optionA.emoji} {question.optionA.text}
             </span>
           </button>
@@ -141,16 +144,16 @@ export default function QuestionScreen() {
           <button
             onClick={() => handleAnswer('B')}
             disabled={isTransitioning}
-            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[64px] ${
+            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[68px] ${
               selected === 'B'
-                ? 'border-potato bg-potato-light scale-[0.98]'
+                ? 'border-golden bg-golden-light scale-[0.98]'
                 : answers[currentQuestion] === 'B'
-                  ? 'border-potato/50 bg-potato-light/50'
-                  : 'border-potato/30 bg-white hover:border-potato hover:bg-potato-light/30'
+                  ? 'border-golden/50 bg-golden-light/50'
+                  : 'border-line bg-white hover:border-carrot/60 hover:bg-beige/50'
             }`}
             aria-label={`선택지 B: ${question.optionB.text}`}
           >
-            <span className="text-[17px] leading-relaxed">
+            <span className="text-[17px] leading-relaxed font-medium">
               {question.optionB.emoji} {question.optionB.text}
             </span>
           </button>
@@ -163,10 +166,10 @@ export default function QuestionScreen() {
           <button
             onClick={handleBack}
             disabled={isTransitioning}
-            className="text-text-secondary text-base hover:text-text-primary transition-colors cursor-pointer"
+            className="text-text-secondary text-[15px] font-medium hover:text-text-primary transition-colors cursor-pointer"
             aria-label="이전 질문으로 돌아가기"
           >
-            ← 이전
+            ← 이전 질문
           </button>
         )}
       </div>
