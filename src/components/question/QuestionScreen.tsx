@@ -13,17 +13,30 @@ export default function QuestionScreen() {
     startTime,
   } = useStore();
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [direction, setDirection] = useState<'left' | 'right'>('left');
   const [selected, setSelected] = useState<'A' | 'B' | null>(null);
+  const [opacity, setOpacity] = useState(1);
 
   const question = QUESTIONS[currentQuestion - 1];
   const total = QUESTIONS.length;
   const percentage = (currentQuestion / total) * 100;
 
+  const transitionToNext = useCallback(
+    (next: () => void) => {
+      setOpacity(0);
+      setTimeout(() => {
+        next();
+        setSelected(null);
+        setOpacity(1);
+        setIsTransitioning(false);
+      }, 250);
+    },
+    []
+  );
+
   const handleAnswer = useCallback(
     (answer: 'A' | 'B') => {
       if (isTransitioning) return;
-
+      setIsTransitioning(true);
       setSelected(answer);
 
       const timeSpent = questionStartTime
@@ -38,42 +51,36 @@ export default function QuestionScreen() {
 
       answerQuestion(currentQuestion, answer);
 
+      // 선택 피드백 잠깐 보여준 후 부드럽게 전환
       setTimeout(() => {
-        setIsTransitioning(true);
-        setDirection('left');
-
-        setTimeout(() => {
-          setSelected(null);
-          if (currentQuestion < total) {
+        if (currentQuestion < total) {
+          transitionToNext(() => {
             useStore.setState({ currentQuestion: currentQuestion + 1 });
-          } else {
-            // 마지막 질문 → 로딩 화면
-            const duration = startTime
-              ? Math.round((Date.now() - startTime) / 1000)
-              : 0;
-            trackEvent('test_complete_transition', { duration_seconds: duration });
+          });
+        } else {
+          const duration = startTime
+            ? Math.round((Date.now() - startTime) / 1000)
+            : 0;
+          trackEvent('test_complete_transition', { duration_seconds: duration });
+          transitionToNext(() => {
             useStore.setState({ currentScreen: 'loading' });
-          }
-          setIsTransitioning(false);
-        }, 300);
-      }, 150);
+          });
+        }
+      }, 200);
     },
-    [currentQuestion, isTransitioning, questionStartTime, answerQuestion, total, startTime]
+    [currentQuestion, isTransitioning, questionStartTime, answerQuestion, total, startTime, transitionToNext]
   );
 
   const handleBack = useCallback(() => {
     if (isTransitioning || currentQuestion <= 1) return;
+    setIsTransitioning(true);
 
     trackEvent('question_back', { from_question: currentQuestion });
 
-    setIsTransitioning(true);
-    setDirection('right');
-
-    setTimeout(() => {
+    transitionToNext(() => {
       goToPreviousQuestion();
-      setIsTransitioning(false);
-    }, 300);
-  }, [currentQuestion, isTransitioning, goToPreviousQuestion]);
+    });
+  }, [currentQuestion, isTransitioning, goToPreviousQuestion, transitionToNext]);
 
   return (
     <div className="flex flex-col min-h-[100dvh] px-4 py-6">
@@ -82,7 +89,7 @@ export default function QuestionScreen() {
         <div className="flex items-center justify-between mb-2">
           <div className="flex-1 h-2 bg-potato-light rounded-full overflow-hidden mr-3">
             <div
-              className="h-full rounded-full transition-all duration-300 ease-out"
+              className="h-full rounded-full transition-all duration-500 ease-out"
               style={{
                 width: `${percentage}%`,
                 background: 'linear-gradient(135deg, #E8B86D 0%, #C9923D 100%)',
@@ -95,18 +102,13 @@ export default function QuestionScreen() {
         </div>
       </div>
 
-      {/* 질문 영역 */}
+      {/* 질문 영역 - opacity 전환 */}
       <div
         className="flex-1 flex flex-col justify-center"
-        key={currentQuestion}
         style={{
-          animation: isTransitioning
-            ? direction === 'left'
-              ? 'slide-in-left 0.3s ease-out'
-              : 'slide-in-right 0.3s ease-out'
-            : direction === 'left'
-              ? 'slide-in-right 0.3s ease-out'
-              : 'slide-in-left 0.3s ease-out',
+          opacity,
+          transform: opacity === 1 ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 0.25s ease, transform 0.25s ease',
         }}
       >
         {/* 질문 번호 */}
