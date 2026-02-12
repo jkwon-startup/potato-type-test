@@ -53,8 +53,8 @@ export default function ResultScreen() {
       {/* 결과 카드 (캡처 대상) */}
       <div
         ref={cardRef}
-        className="w-full bg-white rounded-2xl shadow-lg p-7 mb-8"
-        style={{ animation: 'fade-in 0.6s ease-out' }}
+        className="w-full bg-white rounded-2xl shadow-lg mb-8"
+        style={{ animation: 'fade-in 0.6s ease-out', padding: '28px 24px' }}
       >
         {/* 캐릭터 & 유형 */}
         <div className="text-center mb-5">

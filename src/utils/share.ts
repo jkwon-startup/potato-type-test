@@ -8,11 +8,19 @@ export async function saveResultImage(
   resultType: string
 ): Promise<void> {
   try {
+    // 캡처 전 스크롤을 카드 상단으로 이동
+    cardElement.scrollIntoView({ block: 'start' });
+
     const canvas = await html2canvas(cardElement, {
       scale: 2,
       useCORS: true,
-      backgroundColor: '#FFF8E7',
+      backgroundColor: '#FFFFFF',
       logging: false,
+      // 요소의 실제 크기 + 패딩을 그대로 캡처
+      scrollX: 0,
+      scrollY: -window.scrollY,
+      windowWidth: cardElement.scrollWidth,
+      windowHeight: cardElement.scrollHeight,
     });
 
     const dataUrl = canvas.toDataURL('image/png');

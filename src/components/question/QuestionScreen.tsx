@@ -83,9 +83,9 @@ export default function QuestionScreen() {
   }, [currentQuestion, isTransitioning, goToPreviousQuestion, transitionToNext]);
 
   return (
-    <div className="flex flex-col min-h-[100dvh] px-6 py-8">
+    <div className="flex flex-col min-h-[100dvh] px-6 pt-6 pb-8">
       {/* 프로그레스 바 */}
-      <div className="mb-10">
+      <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <div className="flex-1 h-2.5 bg-potato-light rounded-full overflow-hidden mr-3">
             <div
@@ -102,9 +102,9 @@ export default function QuestionScreen() {
         </div>
       </div>
 
-      {/* 질문 영역 - opacity 전환 */}
+      {/* 질문 영역 - 상단 40% 지점에 배치 */}
       <div
-        className="flex-1 flex flex-col justify-center"
+        className="flex-1 flex flex-col pt-[12vh]"
         style={{
           opacity,
           transform: opacity === 1 ? 'translateY(0)' : 'translateY(8px)',
@@ -158,7 +158,7 @@ export default function QuestionScreen() {
       </div>
 
       {/* 이전 버튼 */}
-      <div className="mt-8 h-12">
+      <div className="mt-6 h-12 shrink-0">
         {currentQuestion > 1 && (
           <button
             onClick={handleBack}
