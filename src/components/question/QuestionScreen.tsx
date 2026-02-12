@@ -83,11 +83,11 @@ export default function QuestionScreen() {
   }, [currentQuestion, isTransitioning, goToPreviousQuestion, transitionToNext]);
 
   return (
-    <div className="flex flex-col min-h-[100dvh] px-4 py-6">
+    <div className="flex flex-col min-h-[100dvh] px-6 py-8">
       {/* 프로그레스 바 */}
-      <div className="mb-8">
+      <div className="mb-10">
         <div className="flex items-center justify-between mb-2">
-          <div className="flex-1 h-2 bg-potato-light rounded-full overflow-hidden mr-3">
+          <div className="flex-1 h-2.5 bg-potato-light rounded-full overflow-hidden mr-3">
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"
               style={{
@@ -96,7 +96,7 @@ export default function QuestionScreen() {
               }}
             />
           </div>
-          <span className="text-sm font-semibold text-text-secondary whitespace-nowrap">
+          <span className="text-base font-semibold text-text-secondary whitespace-nowrap">
             {currentQuestion}/{total}
           </span>
         </div>
@@ -112,19 +112,19 @@ export default function QuestionScreen() {
         }}
       >
         {/* 질문 번호 */}
-        <p className="text-lg font-bold text-potato-dark mb-2">Q{currentQuestion}.</p>
+        <p className="text-xl font-bold text-potato-dark mb-3">Q{currentQuestion}.</p>
 
         {/* 질문 텍스트 */}
-        <h2 className="text-xl font-bold text-text-primary mb-8 leading-relaxed">
+        <h2 className="text-[22px] font-bold text-text-primary mb-10 leading-relaxed">
           {question.text}
         </h2>
 
         {/* 선택지 */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <button
             onClick={() => handleAnswer('A')}
             disabled={isTransitioning}
-            className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer min-h-[56px] ${
+            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[64px] ${
               selected === 'A'
                 ? 'border-potato bg-potato-light scale-[0.98]'
                 : answers[currentQuestion] === 'A'
@@ -133,7 +133,7 @@ export default function QuestionScreen() {
             }`}
             aria-label={`선택지 A: ${question.optionA.text}`}
           >
-            <span className="text-base leading-relaxed">
+            <span className="text-[17px] leading-relaxed">
               {question.optionA.emoji} {question.optionA.text}
             </span>
           </button>
@@ -141,7 +141,7 @@ export default function QuestionScreen() {
           <button
             onClick={() => handleAnswer('B')}
             disabled={isTransitioning}
-            className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer min-h-[56px] ${
+            className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer min-h-[64px] ${
               selected === 'B'
                 ? 'border-potato bg-potato-light scale-[0.98]'
                 : answers[currentQuestion] === 'B'
@@ -150,7 +150,7 @@ export default function QuestionScreen() {
             }`}
             aria-label={`선택지 B: ${question.optionB.text}`}
           >
-            <span className="text-base leading-relaxed">
+            <span className="text-[17px] leading-relaxed">
               {question.optionB.emoji} {question.optionB.text}
             </span>
           </button>
@@ -158,12 +158,12 @@ export default function QuestionScreen() {
       </div>
 
       {/* 이전 버튼 */}
-      <div className="mt-6 h-10">
+      <div className="mt-8 h-12">
         {currentQuestion > 1 && (
           <button
             onClick={handleBack}
             disabled={isTransitioning}
-            className="text-text-secondary text-sm hover:text-text-primary transition-colors cursor-pointer"
+            className="text-text-secondary text-base hover:text-text-primary transition-colors cursor-pointer"
             aria-label="이전 질문으로 돌아가기"
           >
             ← 이전
